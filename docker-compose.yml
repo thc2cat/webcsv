@@ -1,0 +1,15 @@
+services:
+  webcsv:
+    container_name: 'webcsv'
+    image: 'webcsv:tc'
+    restart: unless-stopped
+    ports:
+      - '42778:8080'
+    build:
+      dockerfile: Dockerfile
+    volumes:
+     - /dev/urandom:/dev/random:ro 
+     - "/etc/timezone:/etc/timezone:ro"
+     - "/etc/localtime:/etc/localtime:ro"
+     - "/TEMPORAIRE/data:/data:ro"
+
