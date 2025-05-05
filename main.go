@@ -169,6 +169,7 @@ func main() {
 			}
 			return files[i].Name < files[j].Name
 		})
+
 		// Utilisation d'un template pour générer le HTML
 		tmpl, err := template.New("filelist").Parse(`
                         <!DOCTYPE html>
@@ -178,7 +179,7 @@ func main() {
                         <h1>Répertoire : data </h1>
                         <ul>
                                 {{range .Files}}
-                                <li><a href="/view/{{.Name}}">{{.Name}}</a> ({{if .IsDir}}Dossier{{else}}{{.Size}} octets, modifié le {{.ModTime}}{{end}})</li>
+								<li><a href="/view/{{.Name}}">{{.Name}}</a> ({{if .IsDir}}Dossier{{else}}{{.Size}} octets{{end}})</li>
                                 {{end}}
                         </ul>
                         </body>
@@ -188,6 +189,8 @@ func main() {
 			http.Error(w, "Erreur de template : "+err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		SortFilesByNameReverse(files)
 
 		data := struct {
 			CurrentDir string
